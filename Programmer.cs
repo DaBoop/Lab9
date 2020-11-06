@@ -38,7 +38,7 @@ namespace Lab9
         {
             if (coffeeCups > 0)
             {
-                coffeeCups--;
+                coffeeCups--; // Sip
                 onMutate();
             }
         }
