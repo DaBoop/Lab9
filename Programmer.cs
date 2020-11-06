@@ -17,6 +17,7 @@ namespace Lab9
         public int coffeeCups { get; private set; }
         public void Write(string s) => ProgList.Add(s);
 
+        public void FetchCoffee(int x) => coffeeCups += x;
         public string this[int i]
         {
             get => ProgList[i];
@@ -41,6 +42,22 @@ namespace Lab9
                 coffeeCups--; // Sip
                 onMutate();
             }
+        }
+
+        public void Mutate(Action<int> D, int DParam)
+        {
+            if (coffeeCups > 0)
+            {
+                coffeeCups--; // Sip
+                onMutate();
+            }
+            else
+            {
+                D(DParam);
+                coffeeCups--; // Sip
+                onMutate();
+            }
+
         }
 
         public Programmer(int coffeeCups_arg) => coffeeCups = coffeeCups_arg;

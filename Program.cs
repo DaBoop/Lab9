@@ -14,6 +14,8 @@ namespace Lab9
 
 
     }
+
+    public delegate void Del(int x);
     class Program
     {
 
@@ -24,7 +26,7 @@ namespace Lab9
             var rand = new Random();
             
             
-            var programmer = new Programmer(3);
+            var programmer = new Programmer(1);
             var list1 = new List<int>();
             var list2 = new List<int>();
 
@@ -46,6 +48,7 @@ namespace Lab9
             programmer.onMutate += list2.RemoveLast;
 
             // ========
+            Console.WriteLine();
 
             programmer.Write("prog1");
             programmer.Write("prog2");
@@ -57,7 +60,37 @@ namespace Lab9
             list1.Print<int>();
             Console.WriteLine("--List2");
             list2.Print<int>();
+
+            // =========
+            Console.WriteLine();
+            
+            // Action delegate
+
+            // Количество чашек кофе сейчас 0
+            Console.WriteLine("Coffee Cups Amount:" + programmer.coffeeCups);
+            
+            Action<int> D;
+            D = programmer.FetchCoffee;
+            
+            programmer.Mutate(D,3);
+            // Стало 3, 1 выпивает на месте
+            Console.WriteLine("Coffee Cups Amount:" + programmer.coffeeCups);
+            Console.WriteLine();
+
+            Console.WriteLine("--List1");
+            list1.Print<int>();
+
+            string s = "This is a string, a lovely small string.";
+            string sEmpty = "";
+            Predicate<string> isEmpty = delegate (string s)
+            {
+                return s == "";
+            };
+
+            Console.WriteLine("s is empty: " + isEmpty(s));
+            Console.WriteLine("sEmpty is empty: " + isEmpty(sEmpty));
         }
+
     }
 
 }
