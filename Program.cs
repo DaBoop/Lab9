@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Lab9
 {
@@ -64,12 +65,11 @@ namespace Lab9
             // =========
             Console.WriteLine();
             
-            // Action delegate
 
             // Количество чашек кофе сейчас 0
             Console.WriteLine("Coffee Cups Amount:" + programmer.coffeeCups);
             
-            Action<int> D;
+            Action<int> D; // 1
             D = programmer.FetchCoffee;
             
             programmer.Mutate(D,3);
@@ -81,14 +81,53 @@ namespace Lab9
             list1.Print<int>();
 
             string s = "This is a string, a lovely small string.";
+            Console.WriteLine("s = " + s);
+            Func<string, int, string> shiftLeft = delegate (string s, int pos) // 2
+             {
+                 string temp = "";
+                 for (int i = 0; i < pos; i++)
+                 {
+                     temp += s[i];
+                 }
+                 for (int i = pos+1; i < s.Length-1; i++)
+                 {
+                     temp += s[i];
+                 }
+                 return (string)temp.Clone();
+             };
+
+            Func<string, string> trim = delegate (string s) // 3
+            {
+                for (int i = 0; i < s.Length; i++)
+                {
+                    if (s[i] == ' ')
+                    {
+                        s = shiftLeft(s, i);
+                    }
+
+                }
+                return s;
+            };
+            s = trim(s);
+            Console.WriteLine("trimmed s: " + s);
             string sEmpty = "";
-            Predicate<string> isEmpty = delegate (string s)
+
+            Predicate<string> isEmpty = delegate (string s) // 4
             {
                 return s == "";
             };
 
             Console.WriteLine("s is empty: " + isEmpty(s));
+
             Console.WriteLine("sEmpty is empty: " + isEmpty(sEmpty));
+
+            Func<string,int> half = delegate (string s) // 5
+            {
+                return s.Length / 2;
+            };
+
+            Console.WriteLine("s cleared by half: " + s.Remove(half(s)));
+            
         }
 
     }
